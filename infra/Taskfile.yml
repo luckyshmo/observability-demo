@@ -1,0 +1,8 @@
+version: 3
+
+tasks:
+  # loki-i:
+  # - wget https://raw.githubusercontent.com/grafana/loki/v2.7.2/production/docker-compose.yaml -O docker-compose.yaml
+  # - docker-compose -f docker-compose.yaml up
+  loki-up:
+    - docker-compose -f docker-compose.yaml up

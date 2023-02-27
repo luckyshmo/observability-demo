@@ -1,0 +1,21 @@
+version: "3"
+
+networks:
+  mdemo:
+    name: mdemo
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./docker/server.Dockerfile
+    ports:
+      - "8080:8080"
+    command: ./demo-docker-server
+    labels:
+      logging: "promtail"
+      logging_jobname: "main_server"
+    environment:
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+    networks:
+      - mdemo
