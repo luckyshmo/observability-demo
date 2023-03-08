@@ -8,7 +8,7 @@ RUN go mod download
 COPY ./server ./
 
 # build go app
-RUN go build -o demo-docker-server ./main.go ./metrics.go
+RUN go build -o demo-docker-server .
 
 #Build destination container
 FROM alpine:latest
