@@ -1,0 +1,12 @@
+version: 3
+
+tasks:
+  install:
+    - docker pull envoyproxy/envoy:dev-fabe1df7bf4f69369317f659e6f4556c6c80a1af
+  check:
+    - docker run --rm envoyproxy/envoy:dev-fabe1df7bf4f69369317f659e6f4556c6c80a1af --version
+  run:
+    - docker run --rm -it
+      -p 9901:9901
+      -p 10000:10000
+      envoyproxy/envoy:dev-fabe1df7bf4f69369317f659e6f4556c6c80a1af
