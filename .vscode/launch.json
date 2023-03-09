@@ -12,11 +12,11 @@
           "program": "${workspaceFolder}/client",
       },
       {
-          "name": "t",
+          "name": "trace",
           "type": "go",
           "request": "launch",
           "mode": "auto",
-          "program": "${workspaceFolder}/demo-trace",
+          "program": "${workspaceFolder}/demo-standalone/trace",
           "env": {
             "OTEL_EXPORTER_JAEGER_ENDPOINT": "http://localhost:14268/api/traces"
           }
