@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"math/rand"
+	"os"
+	"strconv"
 	"time"
 
 	"net/http"
@@ -17,7 +19,43 @@ type Book struct {
 	Author string `json:"author"`
 }
 
-var baseURL = "http://localhost:8080"
+var (
+	baseURL  = "http://localhost:8080"
+	speedCof = 100
+)
+
+func main() {
+	bu := os.Getenv("BASE_URL")
+	if bu != "" {
+		baseURL = bu
+	}
+
+	sc := os.Getenv("SPEED_COF")
+	if sc != "" {
+		if parsed, err := strconv.ParseInt(sc, 0, 32); err != nil {
+			speedCof = int(parsed)
+		}
+	}
+
+	rand.Seed(time.Now().UnixNano())
+	for {
+		d := rand.Intn(3*speedCof) + 1*speedCof
+		time.Sleep(time.Millisecond * time.Duration(d))
+		n := rand.Intn(100)
+		switch {
+		case n < 10:
+			go getAll(n)
+		case n >= 10 && n < 30:
+			go getSingleBook(n)
+		case n >= 30 && n < 50:
+			go creteNew(n)
+		case n >= 50 && n < 75:
+			go updateBook(n)
+		case n >= 75:
+			go deleteBook(n)
+		}
+	}
+}
 
 // Get all books
 func getAll(n int) {
@@ -183,25 +221,4 @@ func deleteBook(n int) {
 	defer resp.Body.Close()
 
 	fmt.Printf("\nDeleted book with ID %s\n", bookID)
-}
-
-func main() {
-	rand.Seed(time.Now().UnixNano())
-	for {
-		d := rand.Intn(30) + 10
-		time.Sleep(time.Millisecond * time.Duration(d))
-		n := rand.Intn(100)
-		switch {
-		case n < 10:
-			go getAll(n)
-		case n >= 10 && n < 30:
-			go getSingleBook(n)
-		case n >= 30 && n < 50:
-			go creteNew(n)
-		case n >= 50 && n < 75:
-			go updateBook(n)
-		case n >= 75:
-			go deleteBook(n)
-		}
-	}
 }

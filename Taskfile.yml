@@ -3,3 +3,9 @@ version: 3
 tasks:
   s:
     - docker-compose up --build
+  docker:
+    - docker-compose up -d --build
+    - task -d infra -f up
+  stop:
+    - docker-compose stop
+    - task -d infra -f stop

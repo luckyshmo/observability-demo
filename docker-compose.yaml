@@ -19,3 +19,16 @@ services:
       - OTEL_EXPORTER_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
     networks:
       - mdemo
+  client:
+    build:
+      context: .
+      dockerfile: ./docker/client.Dockerfile
+    environment:
+      - BASE_URL=http://server:8080
+      - SPEED_COF=200
+    command: ./demo-docker-client
+    labels:
+      logging: "promtail"
+      logging_jobname: "main_server"
+    networks:
+      - mdemo

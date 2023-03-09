@@ -17,7 +17,3 @@ ENV GOPATH=/go
 
 # copy bin
 COPY --from=builder $GOPATH/demo-docker-server ./
-
-CMD [ "mkdir", "./log" ]
-
-EXPOSE 8080

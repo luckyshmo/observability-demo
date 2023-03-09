@@ -6,17 +6,6 @@ networks:
     external: true
 
 services:
-  # nginx-app:
-  #   container_name: nginx-app
-  #   image: nginx
-  #   labels:
-  #     logging: "promtail"
-  #     logging_jobname: "containerlogs"
-  #   ports:
-  #     - 8080:80
-  #   networks:
-  #     - mdemo
-
   nettool:
     image: wbitt/network-multitool
     networks:
