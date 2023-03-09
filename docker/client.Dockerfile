@@ -1,19 +1,10 @@
 FROM golang:1.19-alpine as builder
-
-ENV GOPATH=/
-
-COPY ../go.mod ../go.sum ./
+WORKDIR /src/
+COPY ../go.mod ../go.sum /src/
 RUN go mod download
-
 COPY ./client ./
+RUN CGO_ENABLED=0 go build -o /bin/client .
 
-# build go app
-RUN go build -o demo-docker-client .
-
-#Build destination container
-FROM alpine:latest
-
-ENV GOPATH=/go
-
-# copy bin
-COPY --from=builder $GOPATH/demo-docker-client ./
+FROM scratch
+COPY --from=builder /bin/client /bin/client
+ENTRYPOINT ["/bin/client"]
