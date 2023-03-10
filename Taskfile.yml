@@ -9,6 +9,11 @@ tasks:
   stop:
     - docker-compose stop
     - task -d infra -f stop
+  # k8s
+  k-debug:
+    desc: debug network
+    cmds:
+      - kubectl -n default run tmp-shell --rm -i --tty --image nicolaka/netshoot -- /bin/bash
   # Local registry conf
   run-local-registry:
     - docker run -d -p 5100:5000 --restart=always --name registry registry:2
