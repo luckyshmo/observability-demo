@@ -9,3 +9,24 @@ tasks:
   stop:
     - docker-compose stop
     - task -d infra -f stop
+  # Local registry conf
+  run-local-registry:
+    - docker run -d -p 5100:5000 --restart=always --name registry registry:2
+  tag-push:
+    desc: tag container and push it to local store. local - local tag, registry - registry tag
+    cmds:
+      - docker tag {{.local}} localhost:5100/{{.registry}}
+      - docker push localhost:5100/{{.registry}}
+  # Helm
+  h-install:
+    desc: install new app
+    cmds:
+      - helm install {{.name}} {{.path}}
+  h-upgrade:
+    desc: upgrade app to ne revision
+    cmds:
+      - helm upgrade {{.name}} {{.path}}
+  h-uninstall:
+    desc: uninstall app
+    cmds:
+      - helm uninstall {{.name}}

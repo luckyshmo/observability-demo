@@ -189,5 +189,5 @@ func main() {
 	})
 
 	// Start server
-	router.Run()
+	router.Run(":80")
 }

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-env
+data:
+  # base_url: "http://server-service:8181"
+  speed_cof: "100"

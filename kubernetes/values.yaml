@@ -1,0 +1,12 @@
+environment: development
+client:
+  name: client
+  image: localhost:5100/log-client
+  tag: latest
+  replicas: 1
+server:
+  name: server
+  port: 80
+  image: localhost:5100/log-server
+  tag: latest
+  replicas: 3

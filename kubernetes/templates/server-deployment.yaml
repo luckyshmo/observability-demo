@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.server.name }}
+spec:
+  replicas: {{ .Values.server.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.server.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.server.name }}
+        environment: {{ .Values.environment }}
+    spec:
+      containers:
+        - name: {{ .Values.server.name }}
+          image: {{ .Values.server.image }}:{{ .Values.server.tag }}
+          ports:
+            - containerPort: {{ .Values.server.port }}
+          env:
+            - name: environment
+              value: {{ .Values.environment }}
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: {{ .Values.server.port }}
+          #   initialDelaySeconds: 3
+          #   periodSeconds: 3
+      imagePullSecrets:
+        - name: gitlab-credentials
+

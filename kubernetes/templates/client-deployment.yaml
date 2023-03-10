@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.client.name }}
+spec:
+  replicas: {{ .Values.client.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.client.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.client.name }}
+        environment: {{ .Values.environment }}
+    spec:
+      containers:
+        - name: {{ .Values.client.name }}
+          image: {{ .Values.client.image }}:{{ .Values.client.tag }}
+          ports:
+            - containerPort: 12345 #TODO
+          env:
+            - name: environment
+              value: {{ .Values.environment }}
+            - name: BASE_URL
+              value: "http://server-service"
+          # livenessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: {{ .Values.client.port }}
+          #   initialDelaySeconds: 3
+          #   periodSeconds: 3
+      volumes:
+        - name: config
+          configMap:
+            name: app-env
+
