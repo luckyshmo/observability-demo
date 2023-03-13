@@ -17,11 +17,36 @@ tasks:
   # Local registry conf
   run-local-registry:
     - docker run -d -p 5100:5000 --restart=always --name registry registry:2
-  tag-push:
-    desc: tag container and push it to local store. local - local tag, registry - registry tag
+  get-registry-info:
+    - curl http://localhost:5100/v2/_catalog
+    - curl http://localhost:5100/v2/obs/logserver/tags/list
+    - curl http://localhost:5100/v2/obs/logclient/tags/list
+  b-c:
     cmds:
-      - docker tag {{.local}} localhost:5100/{{.registry}}
-      - docker push localhost:5100/{{.registry}}
+      - task: build-tag-push
+        vars:
+          NAME: obs/logclient
+          PATH: ./docker/client.Dockerfile
+  b-s:
+    cmds:
+      - task: build-tag-push
+        vars:
+          NAME: obs/logserver
+          PATH: ./docker/server.Dockerfile
+  build-tag-push:
+    internal: true
+    vars:
+      VERSION:
+        sh: git log -1 --pretty=%h
+      REPO: "localhost:5100"
+      TAG: "{{.REPO}}/{{.NAME}}:{{.VERSION}}"
+      LATEST: "{{.REPO}}/{{.NAME}}:latest"
+      BUILD_TIMESTAMP: $( date '+%F_%H:%M:%S' )
+    cmds:
+      - docker build -t "{{.TAG}}" -t "{{.LATEST}}" -f {{.PATH}} --build-arg VERSION="{{.VERSION}}" --build-arg BUILD_TIMESTAMP="{{.BUILD_TIMESTAMP}}" .
+      - docker push "{{.TAG}}"
+      - docker push "{{.LATEST}}"
+
   # Helm
   h-install:
     desc: install new app
