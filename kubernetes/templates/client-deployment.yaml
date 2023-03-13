@@ -22,15 +22,13 @@ spec:
             - name: environment
               value: {{ .Values.environment }}
             - name: BASE_URL
-              value: "http://server-service"
+              value: http://{{ .Values.server.name }}-service
+            - name: SPEED_COFF
+              value: '{{ .Values.env.speed_cof }}'
           # livenessProbe:
           #   httpGet:
           #     path: /healthz
           #     port: {{ .Values.client.port }}
           #   initialDelaySeconds: 3
           #   periodSeconds: 3
-      volumes:
-        - name: config
-          configMap:
-            name: app-env
 

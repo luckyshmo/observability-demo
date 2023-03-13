@@ -21,12 +21,12 @@ spec:
           env:
             - name: environment
               value: {{ .Values.environment }}
+            - name: OTEL_EXPORTER_JAEGER_ENDPOINT
+              value: {{ .Values.env.otel_exporter_jaeger_endpoint }}
           # livenessProbe:
           #   httpGet:
           #     path: /healthz
           #     port: {{ .Values.server.port }}
           #   initialDelaySeconds: 3
           #   periodSeconds: 3
-      imagePullSecrets:
-        - name: gitlab-credentials
 

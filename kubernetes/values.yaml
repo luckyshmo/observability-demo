@@ -10,3 +10,6 @@ server:
   image: localhost:5100/log-server
   tag: latest
   replicas: 3
+env:
+  otel_exporter_jaeger_endpoint: http://jaeger:14268/api/traces
+  speed_cof: 200
