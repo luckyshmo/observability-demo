@@ -1,4 +1,4 @@
-module kek.com
+module github.com/luckyshmo/observability-demo
 
 go 1.19
 
