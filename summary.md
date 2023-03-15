@@ -9,6 +9,9 @@ https://github.com/wbitt/Network-MultiTool
 Exemplars conf guide:
 https://vbehar.medium.com/using-prometheus-exemplars-to-jump-from-metrics-to-traces-in-grafana-249e721d4192
 
+Grafana Data-source example:
+https://github.com/felipegutierrez/explore-flink/tree/master/k8s
+
 Summary:
 * Demo generated using ChatGPT
 * Test logging, tracing and metrics
